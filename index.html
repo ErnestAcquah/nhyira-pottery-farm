@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nhyira Pottery Farm Company - Fresh farm products and online ordering.">
+  <title>Nhyira Pottery Farm Company</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #222;
+      background: #fff;
+    }
+
+    header {
+      background: #234d20;
+      color: white;
+      padding: 15px 5%;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-bar {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      color: #ffd166;
+    }
+
+    .cart-button {
+      background: #f4a261;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(20,50,20,.75), rgba(20,50,20,.75)),
+                  url("https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1600&q=80")
+                  center/cover;
+      min-height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 40px 20px;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 7vw, 65px);
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #f4a261;
+      color: #222;
+      padding: 13px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 65px 5%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 35px;
+      color: #234d20;
+      font-size: 32px;
+    }
+
+    .about {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .products {
+      background: #f7f7f2;
+    }
+
+    .product-grid {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,.1);
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-card h3 {
+      color: #234d20;
+      margin: 15px 0 5px;
+    }
+
+    .product-card p {
+      margin-bottom: 12px;
+    }
+
+    .price {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .booking {
+      background: #fff;
+    }
+
+    .booking-form {
+      max-width: 600px;
+      margin: auto;
+      background: #f7f7f2;
+      padding: 25px;
+      border-radius: 12px;
+    }
+
+    .booking-form label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .booking-form input,
+    .booking-form textarea,
+    .booking-form select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+
+    .booking-form button {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .contact {
+      background: #234d20;
+      color: white;
+      text-align: center;
+    }
+
+    .contact .section-title {
+      color: white;
+    }
+
+    footer {
+      background: #153313;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Shopping cart */
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: min(420px, 90%);
+      height: 100vh;
+      background: white;
+      z-index: 2000;
+      box-shadow: -5px 0 20px rgba(0,0,0,.2);
+      transition: right .3s ease;
+      padding: 25px;
+      overflow-y: auto;
+    }
+
+    .cart-drawer.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-cart {
+      border: none;
+      background: #eee;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .cart-item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .qty-controls button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: #234d20;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .cart-total {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .cart-form input {
+      width: 100%;
+      padding: 11px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .whatsapp-btn {
+      width: 100%;
+      background: #25d366;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 7px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 1500;
+      display: none;
+    }
+
+    .cart-drawer.open ~ #overlay {
+      display: block;
+    }
+
+    @media (max-width: 700px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: #234d20;
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .hero {
+        min-height: 450px;
+      }
+
+      section {
+        padding: 45px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav-bar">
+
+    <div class="logo">
+      Nhyira Pottery Farm
+    </div>
+
+    <button class="menu-toggle" aria-label="Open menu">
+      ☰
+    </button>
+
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#products">Products</a>
+      <a href="#booking">Booking</a>
+      <a href="#contact">Contact</a>
+
+      <button id="cartButton" class="cart-button">
+        🛒 Cart (<span id="cartCount">0</span>)
+      </button>
+    </nav>
+
+  </div>
+</header>
+
+
+<main>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Nhyira Pottery Farm Company</h1>
+
+      <p>
+        Fresh farm products, quality service and convenient online ordering.
+      </p>
+
+      <a href="#products" class="btn">
+        Shop Our Products
+      </a>
+    </div>
+  </section>
+
+
+  <section id="about">
+    <h2 class="section-title">About Us</h2>
+
+    <div class="about">
+      <p>
+        Welcome to Nhyira Pottery Farm Company.
+        We are committed to providing quality farm products
+        and excellent customer service.
+      </p>
+
+      <p style="margin-top:15px;">
+        Order conveniently online and contact us directly through WhatsApp
+        for fast and easy service.
+      </p>
+    </div>
+  </section>
+
+
+  <section id="products" class="products">
+
+    <h2 class="section-title">
+      Our Products
+    </h2>
+
+    <div class="product-grid">
+
+      <article class="product-card">
+
+        <img
+          src="https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?auto=format&fit=crop&w=800&q=80"
+          alt="Fresh Eggs"
+        >
+
+        <h3>Fresh Eggs</h3>
+
+        <p>
+          Tray of 30 fresh eggs
+        </p>
+
+        <div class="price">
+          GH₵25.00
+        </div>
+
+        <button
+          class="btn"
+          data-add="eggs"
+        >
+          Add to Cart
+        </button>
+
+      </article>
+
+
+      <article class="product-card">
+
+        <img
+          src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=800&q=80"
+          alt="Fresh Chicken"
+        >
+
+        <h3>Chicken</h3>
+
+        <p>
+          Fresh chicken
+        </p>
+
+        <div class="price">
+          GH₵80.00
+        </div>
+
+        <button
+          class="btn"
+          data-add="chicken"
+        >
+          Add to Cart
+        </button>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <section id="booking" class="booking">
+
+    <h2 class="section-title">
+      Make a Booking / Enquiry
+    </h2>
+
+    <form id="bookingForm" class="booking-form">
+
+      <label for="bookingName">
+        Your Name
+      </label>
+
+      <input
+        type="text"
+        id="bookingName"
+        name="name"
+        placeholder="Enter your name"
+        required
+      >
+
+
+      <label for="bookingPhone">
+        Phone Number
+      </label>
+
+      <input
+        type="tel"
+        id="bookingPhone"
+        name="phone"
+        placeholder="Enter your phone number"
+        required
+      >
+
+
+      <label for="bookingDate">
+        Preferred Date
+      </label>
+
+      <input
+        type="date"
+        id="bookingDate"
+        name="date"
+      >
+
+
+      <label for="bookingMessage">
+        Message
+      </label>
+
+      <textarea
+        id="bookingMessage"
+        name="message"
+        rows="5"
+        placeholder="Tell us what you need"
+      ></textarea>
+
+
+      <button
+        type="submit"
+        class="btn"
+      >
+        Send Booking Request
+      </button>
+
+    </form>
+
+  </section>
+
+
+  <section id="contact" class="contact">
+
+    <h2 class="section-title">
+      Contact Us
+    </h2>
+
+    <p>
+      Contact Nhyira Pottery Farm Company directly through WhatsApp.
+    </p>
+
+    <p style="margin-top:10px;">
+      We look forward to serving you.
+    </p>
+
+  </section>
+
+</main>
+
+
+<!-- SHOPPING CART -->
+
+<aside id="cartDrawer" class="cart-drawer">
+
+  <div class="cart-header">
+
+    <h2>Your Cart</h2>
+
+    <button
+      id="closeCart"
+      class="close-cart"
+      aria-label="Close cart"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <div id="cartItems">
+  </div>
+
+
+  <div class="cart-total">
+    Total:
+    <span id="cartTotal">GH₵0.00</span>
+  </div>
+
+
+  <div class="cart-form">
+
+    <input
+      type="text"
+      id="customerName"
+      placeholder="Your full name"
+    >
+
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="Your phone number"
+    >
+
+    <input
+      type="text"
+      id="customerLocation"
+      placeholder="Delivery location"
+    >
+
+    <button
+      id="whatsappOrder"
+      class="whatsapp-btn"
+      type="button"
+    >
+      Order via WhatsApp
+    </button>
+
+  </div>
+
+</aside>
+
+
+<div id="overlay"></div>
+
+
+<footer>
+
+  <p>
+    © <span id="year"></span>
+    Nhyira Pottery Farm Company.
+    All rights reserved.
+  </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+  </html>
