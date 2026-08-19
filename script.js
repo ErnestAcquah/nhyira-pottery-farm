@@ -4,7 +4,13 @@ const PRODUCTS = {
   "live-chicken": {name:"Live Chicken", unit:"1 chicken", price:120}
 };
 
-let cart = JSON.parse(localStorage.getItem("nhyiraCart") || "{}");
+let cart = {};
+try {
+  cart = JSON.parse(localStorage.getItem("nhyiraCart") || "{}");
+} catch (e) {
+  cart = {};
+  localStorage.removeItem("nhyiraCart");
+}
 
 const cartDrawer = document.getElementById("cartDrawer");
 const overlay = document.getElementById("overlay");
