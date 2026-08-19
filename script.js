@@ -1,6 +1,8 @@
 const PRODUCTS = {
   eggs: {name:"Fresh Eggs", unit:"tray of 30", price:45},
-  chicken: {name:"Chicken", unit:"1 chicken", price:120}
+  chicken: {name:"Chicken", unit:"1 chicken", price:80},
+  "live-chicken": {name:"Live Chicken", unit:"1 chicken", price:120}
+};
 };
 let cart = JSON.parse(localStorage.getItem("nhyiraCart") || "{}");
 
