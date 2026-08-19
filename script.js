@@ -3,7 +3,7 @@ const PRODUCTS = {
   chicken: {name:"Chicken", unit:"1 chicken", price:80},
   "live-chicken": {name:"Live Chicken", unit:"1 chicken", price:120}
 };
-};
+
 let cart = JSON.parse(localStorage.getItem("nhyiraCart") || "{}");
 
 const cartDrawer = document.getElementById("cartDrawer");
