@@ -1,7 +1,7 @@
 const PRODUCTS = {
-  eggs: {name:"Fresh Eggs", unit:"tray of 30", price:45},
+  eggs: {name:"Fresh Eggs", unit:"tray of 30", price:60},
   chicken: {name:"Chicken", unit:"1 chicken", price:80},
-  "live-chicken": {name:"Live Chicken", unit:"1 chicken", price:120}
+  "live-chicken": {name:"Live Chicken", unit:"1 chicken", price:100}
 };
 
 let cart = {};
